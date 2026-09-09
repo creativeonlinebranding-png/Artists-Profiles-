@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+
+<title>Flip Stream — Artist Profiles</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Subtle premium lighting */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.06), transparent 32%),
+        radial-gradient(circle at 0% 50%, rgba(255,255,255,0.025), transparent 28%),
+        radial-gradient(circle at 100% 70%, rgba(255,255,255,0.025), transparent 30%);
+    z-index: -1;
+}
+
+/* TOP BAR */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    padding: 14px 22px;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-dot {
+    width: 9px;
+    height: 9px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 14px rgba(255,255,255,0.8);
+}
+
+.brand span {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.live {
+    font-size: 10px;
+    color: #aaa;
+    letter-spacing: 1.5px;
+}
+
+/* HERO */
+.hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 70px 20px 80px;
+    position: relative;
+}
+
+.hero-content {
+    width: 100%;
+    max-width: 900px;
+}
+
+.logo {
+    width: 145px;
+    height: 145px;
+    object-fit: cover;
+    border-radius: 28px;
+    margin-bottom: 28px;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.12),
+        0 20px 70px rgba(255,255,255,0.08);
+    animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%,100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+.hero h1 {
+    font-size: clamp(42px, 9vw, 86px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 18px;
+}
+
+.hero p {
+    color: #aaa;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+/* ENTER BUTTON */
+.enter-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 38px;
+    padding: 15px 31px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 50px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    overflow: hidden;
+    background: #050505;
+    box-shadow: 0 0 25px rgba(255,255,255,0.06);
+    animation: buttonReveal 1.2s ease forwards, buttonPulse 2.8s ease-in-out infinite 1.2s;
+}
+
+.enter-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.2),
+        transparent
+    );
+    transform: skewX(-20deg);
+    animation: buttonSweep 3.2s infinite;
+}
+
+.enter-btn span {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes buttonReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes buttonPulse {
+    0%,100% {
+        box-shadow: 0 0 20px rgba(255,255,255,0.05);
+    }
+    50% {
+        box-shadow: 0 0 34px rgba(255,255,255,0.14);
+    }
+}
+
+@keyframes buttonSweep {
+    0% {
+        left: -120%;
+    }
+    45%,100% {
+        left: 140%;
+    }
+}
+
+/* ANNOUNCEMENT */
+.announcement {
+    text-align: center;
+    padding: 25px 20px 70px;
+}
+
+.announcement-box {
+    max-width: 850px;
+    margin: auto;
+    padding: 30px 22px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 22px;
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.055),
+        rgba(255,255,255,0.015)
+    );
+}
+
+.announcement-small {
+    color: #888;
+    font-size: 10px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.announcement h2 {
+    font-size: clamp(20px, 4vw, 34px);
+    line-height: 1.3;
+    font-weight: 800;
+}
+
+.announcement h2 span {
+    color: #aaa;
+}
+
+/* PROFILES */
+.profiles {
+    padding: 30px 20px 100px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-heading .eyebrow {
+    color: #777;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.section-heading h2 {
+    font-size: clamp(30px, 5vw, 50px);
+    font-weight: 800;
+}
+
+/* ARTIST GRID */
+.artist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+/* ARTIST CARD */
+.artist-card {
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 25px;
+    overflow: hidden;
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.055),
+        rgba(255,255,255,0.015)
+    );
+    transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.artist-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,255,255,0.22);
+}
+
+.artist-image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 0.82;
+    overflow: hidden;
+    background: #080808;
+}
+
+.artist-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.artist-card:hover .artist-image {
+    transform: scale(1.035);
+}
+
+.artist-info {
+    padding: 25px;
+}
+
+.artist-name {
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.artist-genre {
+    color: #888;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 17px;
+}
+
+.artist-bio {
+    color: #aaa;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* SOCIAL LINKS */
+.socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.socials a {
+    color: #ddd;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 30px;
+    padding: 7px 12px;
+    font-size: 10px;
+    transition: 0.25s ease;
+}
+
+.socials a:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* SONG LIST */
+.songs-title {
+    color: #777;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.song-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.song-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.song-number {
+    color: #666;
+    font-size: 10px;
+    width: 18px;
+    text-align: center;
+}
+
+.song-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.song-title {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-status {
+    color: #666;
+    font-size: 9px;
+    margin-top: 2px;
+}
+
+/* PLAY BUTTON */
+.play-song {
+    flex-shrink: 0;
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s ease;
+}
+
+.play-song:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(255,255,255,0.18);
+}
+
+.play-song.playing {
+    background: #000;
+    color: #fff;
+    border-color: rgba(255,255,255,0.45);
+}
+
+/* HIDDEN AUDIO ELEMENT */
+#audioPlayer {
+    display: none;
+}
+
+/* ERROR MESSAGE */
+.audio-error {
+    display: none;
+    color: #888;
+    font-size: 10px;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+.audio-error.show {
+    display: block;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 45px 20px 55px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    color: #555;
+}
+
+footer strong {
+    color: #888;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+footer span {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+/* MOBILE */
+@media (max-width: 760px) {
+
+    .topbar {
+        padding: 13px 15px;
+    }
+
+    .hero {
+        min-height: 82vh;
+        padding: 55px 18px 65px;
+    }
+
+    .logo {
+        width: 125px;
+        height: 125px;
+        border-radius: 24px;
+    }
+
+    .hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .artist-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profiles {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .artist-info {
+        padding: 21px;
+    }
+}
+
+@media (max-width: 430px) {
+
+    .artist-name {
+        font-size: 22px;
+    }
+
+    .artist-bio {
+        font-size: 11px;
+    }
+
+    .song-row {
+        padding: 9px;
+    }
+
+    .play-song {
+        width: 35px;
+        height: 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-dot"></div>
+        <span>Flip Stream</span>
+    </div>
+
+    <div class="live">ARTIST PROFILES</div>
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <img
+            src="IMG-20260909-WA0022.jpg"
+            alt="Flip Stream"
+            class="logo"
+        >
+
+        <h1>Flip Stream</h1>
+
+        <p>
+            Discover independent artists, original music and fresh sounds.
+            Meet the artists behind the music and listen directly from their profiles.
+        </p>
+
+        <a href="#profiles" class="enter-btn">
+            <span>Enter Flip Stream</span>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ANNOUNCEMENT -->
+<section class="announcement">
+
+    <div class="announcement-box">
+
+        <div class="announcement-small">
+            FLIP STREAM ANNOUNCEMENT
+        </div>
+
+        <h2>
+            MORE EXCLUSIVE SONGS COMING SOON
+            <br>
+            <span>FLIP STREAM — VERSION 2 RELEASE</span>
+        </h2>
+
+    </div>
+
+</section>
+
+
+<!-- ARTIST PROFILES -->
+<section class="profiles" id="profiles">
+
+    <div class="section-heading">
+
+        <div class="eyebrow">Meet the Artists</div>
+
+        <h2>Artist Profiles</h2>
+
+    </div>
+
+    <div class="artist-grid" id="artistGrid"></div>
+
+</section>
+
+
+<!-- ONE HIDDEN AUDIO PLAYER -->
+<!-- No visible player. No download controls. -->
+<audio
+    id="audioPlayer"
+    preload="none"
+    controlsList="nodownload noplaybackrate"
+    disablePictureInPicture
+></audio>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <strong>© 2026 Flip Stream</strong>
+
+    <span>One Vision. One Platform. One Community.</span>
+
+</footer>
+
+
+<script>
+
+/*
+===========================================================
+FLIP STREAM AUDIO LOCATION
+===========================================================
+
+If your MP3 files are in the SAME folder as this HTML,
+leave this as:
+
+const audioFolder = "";
+
+If they are inside a folder called "music", change it to:
+
+const audioFolder = "music/";
+===========================================================
+*/
+
+const audioFolder = "";
+
+
+/* ARTIST DATABASE */
+
+const artists = [
+
+    {
+        name: "Swogger",
+        genre: "Hyper-Pop",
+        image: "IMG-20260107-WA0014.jpg",
+
+        bio:
+        "Born in Durban, KwaZulu-Natal and currently based in Johannesburg, South Africa. This multi-faceted talent Swogger is set to introduce the country to the expansive universe of hyperpop.",
+
+        socials: [
+            {
+                name: "Instagram",
+                url: "https://www.instagram.com/swoger_"
+            },
+            {
+                name: "YouTube",
+                url: "https://m.youtube.com/watch?si=ltaEiQqt-qyf5yPq&v=DZ-0VSi_m1o&feature=youtu.be"
+            }
+        ],
+
+        songs: [
+            {
+                title: "Avant-garde",
+                file: "AUD-20260223-WA0007.mp3"
+            }
+        ]
+    },
+
+
+    {
+        name: "PEGG",
+        genre: "Rap / Experimental",
+        image: "IMG-20260905-WA0005.jpg",
+
+        bio:
+        "PEGG (SUPAMLUNGU) is a 23 year old Independent Rap Artist hailing from Durban , South Africa. He is an experimental mind who's creative range is one of his strong points. A lyrical titan who knows what sounds good. Beyond his solo rap projects, PEGG explores cross-genre sounds working alongside alternative acts like Poster Boy and Pilgrim Soup bands.",
+
+        socials: [
+            {
+                name: "YouTube",
+                url: "https://m.youtube.com/watch?v=QupfXTaX-Hc&pp=iggCQAE%3D"
+            },
+            {
+                name: "Instagram",
+                url: "https://www.instagram.com/pegg.dbn?igsi=d25jNnFndnMweG5n"
+            }
+        ],
+
+        songs: [
+            {
+                title: "Danger",
+                file: "03 Pegg - Danger.mp3"
+            },
+            {
+                title: "LAPISA GMIX",
+                file: "PEGG _LAPISA GMIX.mp3"
+            }
+        ]
+    },
+
+
+    {
+        name: "Pepsurah",
+        genre: "Hip Hop",
+        image: "Screenshot_20260908_040428_Adobe Acrobat.jpg",
+
+        bio:
+        "PEPSURAH IS A SOUTHAFRICAN RISING HIP-HOP STAR, MODELAND AN ALL-ROUND ENTERTAINER. HAILING FROM PIETERMARITZBURG, PEPSURAH IS KNOWN FOR HER CREATIVE RAPING STYLE AND VIBRANT STAGE PRESENCE",
+
+        socials: [
+            {
+                name: "Instagram",
+                url: "https://www.instagram.com/pepsurah_official?stkn=MXB3bXFwa21qNXAxNA%3D%3D&utm_source=qr"
+            },
+            {
+                name: "YouTube",
+                url: "https://m.youtube.com/watch?si=P23GFhgKdGFk5wdv&v=RSYwAAU0-LI&feature=youtu.be"
+            }
+        ],
+
+        songs: [
+            {
+                title: "Zulu Baddie",
+                file: "Pepsurah-Zulu Baddie.mp3"
+            },
+            {
+                title: "Syabangena",
+                file: "3. Pepsurah-Syabangena.mp3"
+            },
+            {
+                title: "Wemngani",
+                file: "1. Pepsurah-Wemngani.mp3"
+            }
+        ]
+    },
+
+
+    {
+        name: "Supreme",
+        genre: "Producer • Composer • Writer • Mixer",
+        image: "IMG-20260905-WA0004.jpg",
+
+        bio:
+        "Self-taught producer, composer, writer, and mixer with nearly a decade of experience creating music. With over 1,000 hours of music produced, I’m passionate about crafting compelling sounds across multiple genres. I’ve collaborated with more than 10 artists and organizations, bringing creativity, versatility, and dedication to every project.",
+
+        socials: [
+            {
+                name: "YouTube",
+                url: "https://m.youtube.com/watch?si=89U5P4r0RdtG-ssD&v=wJ0RCviMgqg&feature=youtu.be"
+            },
+            {
+                name: "Instagram",
+                url: "https://www.instagram.com/ug.supreme?igsi=endwYjltZ2xyZWxn"
+            }
+        ],
+
+        songs: [
+            {
+                title: "PayCheck",
+                file: "AUD-20260908-WA0054.mp3"
+            },
+            {
+                title: "Supreme Reign Beat",
+                file: "AUD-20260908-WA0053.mp3"
+            }
+        ]
+    },
+
+
+    {
+        name: "Tr!p",
+        genre: "Rap / Soul / Alternative",
+        image: "IMG-20260901-WA0025.jpg",
+
+        bio:
+        "Tr!p is a songwriter, soul/rap composer, and alternative artist based in KwaZulu-Natal, South Africa in a small town called Pietermaritzburg. He is part of an extensive crew called @Grimes_Clique which has artists mainly from Hillcrest, Maritzburg and Westville.",
+
+        socials: [
+            {
+                name: "Instagram",
+                url: "https://www.instagram.com/killndu_?utm_source=qr&igsi=YmNwenh6N3h2ZDc0"
+            }
+        ],
+
+        songs: [
+            {
+                title: "Numbers",
+                file: "Numbers.mp3"
+            },
+            {
+                title: "PDS",
+                file: "PDS.mp3"
+            }
+        ]
+    },
+
+
+    {
+        name: "Kreespii",
+        genre: "NeoSoul • Hip Hop • TrapSoul",
+        image: "IMG-20260903-WA0027.jpg",
+
+        bio:
+        "Kreespii is an independent neosoul artist, hip-hop artist and also trapsoul artist known for tracks like \"TIME\". Based in KZN, South Africa Kreespii is a force to be reconnect with at a cypher as he can go off the dome without missing a beat! And his pen game is on point.",
+
+        socials: [
+            {
+                name: "YouTube",
+                url: "https://m.youtube.com/watch?v=XDLfqS246FI&feature=youtu.be"
+            },
+            {
+                name: "Instagram",
+                url: "https://www.instagram.com/kreespiirsa?igsh=MXB4dnZ3Y3dlOWZ4eQ=="
+            }
+        ],
+
+        songs: [
+            {
+                title: "Voice Of The Youth",
+                file: "Kreespii - Voice Of The Youth.mp3"
+            },
+            {
+                title: "sing final",
+                file: "Kreespii -sing final.mp3"
+            },
+            {
+                title: "OBSESSION3",
+                file: "OBSESSION3.mp3"
+            }
+        ]
+    },
+
+
+    {
+        name: "Chad Thompson",
+        genre: "Alternative",
+        image: "IMG-20260908-WA0003.jpg",
+
+        bio:
+        "Chad Thompson creates dreamy alternative music where ocean tides meet cosmic skies. Blending hazy guitar, grunge textures, psychedelic sounds and whimsical storytelling, his music feels like drifting through an otherworldly dream at dusk— somewhere between the sea, the stars, and the unknown.",
+
+        socials: [
+            {
+                name: "YouTube",
+                url: "https://m.youtube.com/watch?si=tinWwVAIEWuqwj7k&v=4tfcUQy4rtg&feature=youtu.be"
+            },
+            {
+                name: "Instagram",
+                url: "https://www.instagram.com/wizardchad"
+            }
+        ],
+
+        songs: [
+            {
+                title: "The Lantern Bearers",
+                file: "AUD-20260908-WA0004.mp3"
+            },
+            {
+                title: "The Sentinel Moon",
+                file: "AUD-20260908-WA0006.mp3"
+            }
+        ]
+    }
+
+];
+
+
+/* HTML ESCAPE */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* BUILD PROFILES */
+
+const artistGrid = document.getElementById("artistGrid");
+
+artists.forEach((artist, artistIndex) => {
+
+    const card = document.createElement("article");
+
+    card.className = "artist-card";
+
+    let socialHTML = "";
+
+    artist.socials.forEach(social => {
+
+        socialHTML += `
+            <a
+                href="${escapeHTML(social.url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                ${escapeHTML(social.name)}
+            </a>
+        `;
+
+    });
+
+
+    let songsHTML = "";
+
+    artist.songs.forEach((song, songIndex) => {
+
+        songsHTML += `
+
+            <div class="song-row">
+
+                <div class="song-number">
+                    ${String(songIndex + 1).padStart(2, "0")}
+                </div>
+
+                <div class="song-details">
+
+                    <div class="song-title">
+                        ${escapeHTML(song.title)}
+                    </div>
+
+                    <div class="song-status">
+                        FLIP STREAM
+                    </div>
+
+                </div>
+
+                <button
+                    class="play-song"
+                    type="button"
+                    data-artist="${artistIndex}"
+                    data-song="${songIndex}"
+                    aria-label="Play ${escapeHTML(song.title)}"
+                >
+                    ▶
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+
+    card.innerHTML = `
+
+        <div class="artist-image-wrap">
+
+            <img
+                class="artist-image"
+                src="${escapeHTML(artist.image)}"
+                alt="${escapeHTML(artist.name)}"
+                loading="lazy"
+            >
+
+        </div>
+
+        <div class="artist-info">
+
+            <div class="artist-name">
+                ${escapeHTML(artist.name)}
+            </div>
+
+            <div class="artist-genre">
+                ${escapeHTML(artist.genre)}
+            </div>
+
+            <div class="artist-bio">
+                ${escapeHTML(artist.bio)}
+            </div>
+
+            <div class="socials">
+                ${socialHTML}
+            </div>
+
+            <div class="songs-title">
+                Songs
+            </div>
+
+            <div class="song-list">
+                ${songsHTML}
+            </div>
+
+            <div class="audio-error"></div>
+
+        </div>
+    `;
+
+    artistGrid.appendChild(card);
+
+});
+
+
+/* AUDIO */
+
+const audioPlayer = document.getElementById("audioPlayer");
+
+let currentArtist = -1;
+let currentSong = -1;
+
+
+/* PLAY SONG */
+
+function playSong(artistIndex, songIndex, button) {
+
+    const artist = artists[artistIndex];
+    const song = artist.songs[songIndex];
+
+    const filePath = audioFolder + song.file;
+
+    /*
+     * Stop currently playing song.
+     */
+
+    document.querySelectorAll(".play-song").forEach(btn => {
+
+        btn.classList.remove("playing");
+        btn.textContent = "▶";
+
+    });
+
+
+    /*
+     * If clicking the currently playing song,
+     * pause it instead.
+     */
+
+    if (
+        currentArtist === artistIndex &&
+        currentSong === songIndex &&
+        !audioPlayer.paused
+    ) {
+
+        audioPlayer.pause();
+
+        button.classList.remove("playing");
+        button.textContent = "▶";
+
+        return;
+    }
+
+
+    /*
+     * Load the requested audio file.
+     */
+
+    currentArtist = artistIndex;
+    currentSong = songIndex;
+
+    audioPlayer.src = filePath;
+    audioPlayer.load();
+
+
+    button.classList.add("playing");
+    button.textContent = "❚❚";
+
+
+    /*
+     * Play.
+     */
+
+    const playPromise = audioPlayer.play();
+
+    if (playPromise !== undefined) {
+
+        playPromise.catch(error => {
+
+            console.error("Flip Stream audio error:", error);
+
+            button.classList.remove("playing");
+            button.textContent = "▶";
+
+            showAudioError(
+                button,
+                "This audio file could not be played. Check that the MP3 filename and location match exactly."
+            );
+
+        });
+
+    }
+
+}
+
+
+/* BUTTON EVENTS */
+
+document.querySelectorAll(".play-song").forEach(button => {
+
+    button.addEventListener("click", function() {
+
+        const artistIndex = Number(this.dataset.artist);
+        const songIndex = Number(this.dataset.song);
+
+        clearAudioErrors();
+
+        playSong(
+            artistIndex,
+            songIndex,
+            this
+        );
+
+    });
+
+});
+
+
+/* AUDIO ENDED */
+
+audioPlayer.addEventListener("ended", function() {
+
+    document.querySelectorAll(".play-song").forEach(btn => {
+
+        btn.classList.remove("playing");
+        btn.textContent = "▶";
+
+    });
+
+});
+
+
+/* AUDIO ERROR */
+
+audioPlayer.addEventListener("error", function() {
+
+    if (currentArtist < 0 || currentSong < 0) {
+        return;
+    }
+
+    const buttons = document.querySelectorAll(".play-song");
+
+    const button = Array.from(buttons).find(btn =>
+
+        Number(btn.dataset.artist) === currentArtist &&
+        Number(btn.dataset.song) === currentSong
+
+    );
+
+    if (button) {
+
+        button.classList.remove("playing");
+        button.textContent = "▶";
+
+        showAudioError(
+            button,
+            "Audio could not be loaded. Make sure the MP3 file is uploaded and the filename matches exactly."
+        );
+
+    }
+
+});
+
+
+function showAudioError(button, message) {
+
+    const card = button.closest(".artist-card");
+
+    if (!card) return;
+
+    const errorBox = card.querySelector(".audio-error");
+
+    if (!errorBox) return;
+
+    errorBox.textContent = message;
+    errorBox.classList.add("show");
+
+}
+
+
+function clearAudioErrors() {
+
+    document.querySelectorAll(".audio-error").forEach(box => {
+
+        box.textContent = "";
+        box.classList.remove("show");
+
+    });
+
+}
+
+
+/*
+===========================================================
+ANTI-DOWNLOAD / USER EXPERIENCE PROTECTION
+===========================================================
+*/
+
+document.addEventListener("contextmenu", function(event) {
+
+    /*
+     * Prevent right-click saving on the page.
+     */
+
+    if (
+        event.target.tagName === "AUDIO" ||
+        event.target.closest(".song-row") ||
+        event.target.closest(".artist-image")
+    ) {
+
+        event.preventDefault();
+
+    }
+
+});
+
+
+/*
+ * Prevent common keyboard shortcuts for saving
+ * when focused on the page.
+ */
+
+document.addEventListener("keydown", function(event) {
+
+    if (
+        (event.ctrlKey || event.metaKey) &&
+        ["s", "S", "u", "U"].includes(event.key)
+    ) {
+
+        event.preventDefault();
+
+    }
+
+});
+
+
+/*
+ * Disable drag-and-drop saving of artist images.
+ */
+
+document.addEventListener("dragstart", function(event) {
+
+    if (
+        event.target.tagName === "IMG" ||
+        event.target.tagName === "AUDIO"
+    ) {
+
+        event.preventDefault();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
