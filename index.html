@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flip Stream — Artist Profiles</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#000;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 15% 15%,rgba(255,255,255,.055),transparent 28%),
+        radial-gradient(circle at 85% 75%,rgba(255,255,255,.035),transparent 30%);
+    z-index:-1;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    width:100%;
+    background:rgba(0,0,0,.94);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.topbar-inner{
+    max-width:1200px;
+    margin:auto;
+    padding:18px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.brand{
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.brand span{
+    font-weight:400;
+    color:#aaa;
+}
+
+.nav-title{
+    font-size:12px;
+    color:#999;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.hero{
+    min-height:82vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:70px 20px 90px;
+    position:relative;
+}
+
+.hero-inner{
+    max-width:850px;
+}
+
+.logo{
+    width:145px;
+    height:145px;
+    object-fit:cover;
+    border-radius:50%;
+    margin:0 auto 30px;
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:
+        0 0 0 8px rgba(255,255,255,.025),
+        0 20px 60px rgba(255,255,255,.08);
+}
+
+.hero h1{
+    font-size:clamp(42px,8vw,82px);
+    line-height:1;
+    font-weight:800;
+    letter-spacing:-3px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    max-width:680px;
+    margin:0 auto;
+    color:#aaa;
+    font-size:16px;
+    line-height:1.8;
+}
+
+.announcement{
+    margin:35px auto 38px;
+    padding:20px 25px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.035);
+    border-radius:18px;
+    max-width:650px;
+    box-shadow:0 15px 50px rgba(0,0,0,.5);
+}
+
+.announcement strong{
+    display:block;
+    font-size:15px;
+    letter-spacing:2px;
+    margin-bottom:7px;
+}
+
+.announcement span{
+    font-size:12px;
+    color:#999;
+    letter-spacing:1.5px;
+}
+
+.enter-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:205px;
+    padding:15px 25px;
+    border-radius:50px;
+    background:#fff;
+    color:#000;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:1px;
+    transition:.35s ease;
+    box-shadow:0 0 0 rgba(255,255,255,0);
+    animation:pulseButton 2.5s infinite;
+}
+
+.enter-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 15px 40px rgba(255,255,255,.16);
+}
+
+@keyframes pulseButton{
+    0%,100%{
+        box-shadow:0 0 0 rgba(255,255,255,0);
+    }
+    50%{
+        box-shadow:0 0 30px rgba(255,255,255,.12);
+    }
+}
+
+.profiles{
+    max-width:1200px;
+    margin:0 auto;
+    padding:40px 20px 100px;
+}
+
+.section-heading{
+    text-align:center;
+    margin-bottom:55px;
+}
+
+.section-heading h2{
+    font-size:clamp(30px,5vw,48px);
+    font-weight:700;
+    letter-spacing:-1px;
+}
+
+.section-heading p{
+    color:#777;
+    font-size:13px;
+    margin-top:10px;
+}
+
+.artist-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:25px;
+}
+
+.artist-card{
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.055),
+        rgba(255,255,255,.018)
+    );
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:25px;
+    padding:30px;
+    transition:.35s ease;
+    overflow:hidden;
+    position:relative;
+}
+
+.artist-card::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-90px;
+    top:-90px;
+    border-radius:50%;
+    background:rgba(255,255,255,.025);
+    pointer-events:none;
+}
+
+.artist-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(255,255,255,.18);
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+}
+
+.artist-header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.artist-image{
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#111;
+    border:1px solid rgba(255,255,255,.12);
+    flex-shrink:0;
+}
+
+.artist-name{
+    font-size:23px;
+    font-weight:700;
+    line-height:1.2;
+}
+
+.artist-genre{
+    color:#888;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-top:7px;
+}
+
+.bio{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.85;
+    margin-bottom:20px;
+}
+
+.socials{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:24px;
+}
+
+.social-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.04);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    transition:.3s ease;
+}
+
+.social-btn:hover{
+    background:#fff;
+    color:#000;
+    transform:translateY(-3px);
+}
+
+.instagram-svg,
+.youtube-svg,
+.facebook-svg{
+    width:22px;
+    height:22px;
+    display:block;
+}
+
+.instagram-svg .ig-outline{
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.8;
+}
+
+.instagram-svg .ig-lens{
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.8;
+}
+
+.instagram-svg .ig-dot{
+    fill:currentColor;
+}
+
+.youtube-svg .yt-body{
+    fill:currentColor;
+}
+
+.youtube-svg .yt-play{
+    fill:#000;
+}
+
+.facebook-svg .fb-shape{
+    fill:currentColor;
+}
+
+.bio-facebook{
+    margin-top:18px;
+    display:flex;
+}
+
+.songs-title{
+    font-size:11px;
+    color:#666;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin-bottom:12px;
+}
+
+.song-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.song{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 13px;
+    border-radius:14px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.055);
+}
+
+.play-btn{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.18);
+    background:#fff;
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:.25s ease;
+    font-size:13px;
+    padding-left:2px;
+}
+
+.play-btn:hover{
+    transform:scale(1.06);
+}
+
+.song-info{
+    min-width:0;
+}
+
+.song-title{
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.song-artist{
+    font-size:10px;
+    color:#666;
+    margin-top:3px;
+}
+
+footer{
+    border-top:1px solid rgba(255,255,255,.07);
+    padding:35px 20px;
+    text-align:center;
+    color:#555;
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+footer strong{
+    display:block;
+    color:#888;
+    margin-bottom:7px;
+    font-weight:500;
+}
+
+#audioPlayer{
+    display:none;
+}
+
+@media(max-width:800px){
+    .artist-grid{
+        grid-template-columns:1fr;
+    }
+
+    .topbar-inner{
+        padding:16px 18px;
+    }
+
+    .brand{
+        font-size:17px;
+    }
+
+    .nav-title{
+        font-size:9px;
+    }
+
+    .hero{
+        min-height:78vh;
+        padding-top:60px;
+    }
+
+    .artist-card{
+        padding:23px;
+    }
+}
+
+@media(max-width:480px){
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    .logo{
+        width:120px;
+        height:120px;
+    }
+
+    .artist-header{
+        align-items:flex-start;
+    }
+
+    .artist-image{
+        width:78px;
+        height:78px;
+    }
+
+    .artist-name{
+        font-size:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">
+            FLIP <span>STREAM</span>
+        </div>
+
+        <div class="nav-title">
+            Artist Profiles
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <img
+            src="IMG-20260909-WA0022.jpg"
+            alt="Flip Stream"
+            class="logo"
+        >
+
+        <h1>Artist Profiles</h1>
+
+        <p>
+            Discover the artists behind the sounds.
+            Explore their stories, music, creative journeys
+            and official social platforms.
+        </p>
+
+        <div class="announcement">
+            <strong>MORE EXCLUSIVE SONGS COMING SOON</strong>
+            <span>FLIP STREAM — VERSION 2 RELEASE</span>
+        </div>
+
+        <a href="#profiles" class="enter-btn">
+            ENTER FLIP STREAM
+        </a>
+
+    </div>
+
+</section>
+
+<section class="profiles" id="profiles">
+
+    <div class="section-heading">
+        <h2>Featured Artists</h2>
+        <p>Independent voices. Original sounds. One platform.</p>
+    </div>
+
+    <div class="artist-grid" id="artistGrid"></div>
+
+</section>
+
+<footer>
+    <strong>© 2026 Flip Stream</strong>
+    One Vision. One Platform. One Community.
+</footer>
+
+<audio
+    id="audioPlayer"
+    preload="metadata"
+    controlsList="nodownload noplaybackrate"
+    disablePictureInPicture
+></audio>
+
+<script>
+
+const audioFolder = "";
+
+const instagramIcon = `
+<svg class="instagram-svg" viewBox="0 0 24 24" aria-hidden="true">
+    <rect class="ig-outline"
+        x="3" y="3" width="18" height="18"
+        rx="5" ry="5">
+    </rect>
+
+    <circle class="ig-lens"
+        cx="12" cy="12" r="4">
+    </circle>
+
+    <circle class="ig-dot"
+        cx="17.4" cy="6.6" r="1.2">
+    </circle>
+</svg>
+`;
+
+const youtubeIcon = `
+<svg class="youtube-svg" viewBox="0 0 24 24" aria-hidden="true">
+    <path class="yt-body"
+        d="M23.5 6.2a3.1 3.1 0 0 0-2.18-2.2C19.4 3.5 12 3.5 12 3.5s-7.4 0-9.32.5A3.1 3.1 0 0 0 .5 6.2 32 32 0 0 0 0 12a32 32 0 0 0 .5 5.8 3.1 3.1 0 0 0 2.18 2.2c1.92.5 9.32.5 9.32.5s7.4 0 9.32-.5a3.1 3.1 0 0 0 2.18-2.2A32 32 0 0 0 24 12a32 32 0 0 0-.5-5.8z">
+    </path>
+
+    <polygon class="yt-play"
+        points="9.6,8.1 16.4,12 9.6,15.9">
+    </polygon>
+</svg>
+`;
+
+const facebookIcon = `
+<svg class="facebook-svg" viewBox="0 0 24 24" aria-hidden="true">
+    <path class="fb-shape"
+        d="M14.7 8.2h2.55V4.35
+        c-.44-.06-1.94-.2-3.68-.2
+        -3.64 0-6.13 2.22-6.13 6.3v3.5H3.5v4.68h3.94V24h4.82v-5.37h3.87l.61-4.68h-4.48v-3.05
+        c0-1.36.38-2.28 2.44-2.28z">
+    </path>
+</svg>
+`;
+
+const artists = [
+
+{
+    name:"Swogger",
+    genre:"Hyper-Pop",
+    image:"IMG-20260107-WA0014.jpg",
+
+    instagram:"https://www.instagram.com/swoger_",
+
+    youtube:"https://m.youtube.com/watch?si=ltaEiQqt-qyf5yPq&v=DZ-0VSi_m1o&feature=youtu.be",
+
+    bio:`Born in Durban, KwaZulu-Natal and currently based in Johannesburg, South Africa. This multi-faceted talent Swogger is set to introduce the country to the expansive universe of hyperpop.`,
+
+    songs:[
+        {
+            title:"Accela",
+            file:"AUD-20260909-WA0001.mp3"
+        }
+    ]
+},
+
+{
+    name:"PEGG",
+    genre:"Rap / Experimental",
+    image:"IMG-20260905-WA0005.jpg",
+
+    youtube:"https://m.youtube.com/watch?v=QupfXTaX-Hc&pp=iggCQAE%3D",
+
+    instagram:"https://www.instagram.com/pegg.dbn?igsi=d25jNnFndnMweG5n",
+
+    bio:`PEGG (SUPAMLUNGU) is a 23 year old Independent Rap Artist hailing from Durban , South Africa. He is an experimental mind who's creative range is one of his strong points. A lyrical titan who knows what sounds good. Beyond his solo rap projects, PEGG explores cross-genre sounds working alongside alternative acts like Poster Boy and Pilgrim Soup bands.`,
+
+    songs:[
+        {
+            title:"Danger",
+            file:"03 Pegg - Danger.mp3"
+        },
+        {
+            title:"LAPISA GMIX",
+            file:"PEGG _LAPISA GMIX.mp3"
+        }
+    ]
+},
+
+{
+    name:"Pepsurah",
+    genre:"Hip Hop",
+    image:"Screenshot_20260908_040428_Adobe Acrobat.jpg",
+
+    instagram:"https://www.instagram.com/pepsurah_official?stkn=MXB3bXFwa21qNXAxNA%3D%3D&utm_source=qr",
+
+    youtube:"https://m.youtube.com/watch?si=P23GFhgKdGFk5wdv&v=RSYwAAU0-LI&feature=youtu.be",
+
+    bio:`PEPSURAH IS A SOUTHAFRICAN RISING HIP-HOP STAR, MODELAND AN ALL-ROUND ENTERTAINER. HAILING FROM PIETERMARITZBURG, PEPSURAH IS KNOWN FOR HER CREATIVE RAPING STYLE AND VIBRANT STAGE PRESENCE`,
+
+    songs:[
+        {
+            title:"Wemngani",
+            file:"1. Pepsurah-Wemngani.mp3"
+        },
+        {
+            title:"Zulu Baddie",
+            file:"2. Pepsurah-Zulu Baddie.mp3"
+        },
+        {
+            title:"Syabangena",
+            file:"3. Pepsurah-Syabangena.mp3"
+        }
+    ]
+},
+
+{
+    name:"Supreme",
+    genre:"Producer • Composer • Writer • Mixer",
+    image:"IMG-20260905-WA0004.jpg",
+
+    youtube:"https://m.youtube.com/watch?si=89U5P4r0RdtG-ssD&v=wJ0RCviMgqg&feature=youtu.be",
+
+    instagram:"https://www.instagram.com/ug.supreme?igsi=endwYjltZ2xyZWxn",
+
+    bio:`Self-taught producer, composer, writer, and mixer with nearly a decade of experience creating music. With over 1,000 hours of music produced, I’m passionate about crafting compelling sounds across multiple genres. I’ve collaborated with more than 10 artists and organizations, bringing creativity, versatility, and dedication to every project.`,
+
+    songs:[
+        {
+            title:"PayCheck",
+            file:"AUD-20260908-WA0054.mp3"
+        },
+        {
+            title:"Supreme Reign Beat",
+            file:"AUD-20260909-WA0002.mp3"
+        }
+    ]
+},
+
+{
+    name:"Tr!p",
+    genre:"Rap / Soul / Alternative",
+    image:"IMG-20260901-WA0025.jpg",
+
+    instagram:"https://www.instagram.com/killndu_?utm_source=qr&igsi=YmNwenh6N3h2ZDc0",
+
+    bio:`Tr!p is a songwriter, soul/rap composer, and alternative artist based in KwaZulu-Natal, South Africa in a small town called Pietermaritzburg. He is part of an extensive crew called @Grimes_Clique which has artists mainly from Hillcrest, Maritzburg and Westville.`,
+
+    songs:[
+        {
+            title:"Numbers",
+            file:"Numbers.mp3"
+        },
+        {
+            title:"PDS",
+            file:"PDS.mp3"
+        }
+    ]
+},
+
+{
+    name:"Kreespii",
+    genre:"NeoSoul • Hip Hop • TrapSoul",
+    image:"IMG-20260903-WA0027.jpg",
+
+    youtube:"https://m.youtube.com/watch?v=XDLfqS246FI&feature=youtu.be",
+
+    instagram:"https://www.instagram.com/kreespiirsa?igsh=MXB4dnZ3Y3dlOWZ4eQ==",
+
+    bio:`Kreespii is an independent neosoul artist, hip-hop artist and also trapsoul artist known for tracks like "TIME". Based in KZN, South Africa Kreespii is a force to be reconnect with at a cypher as he can go off the dome without missing a beat! And his pen game is on point.`,
+
+    songs:[
+        {
+            title:"Voice Of The Youth",
+            file:"Kreespii - Voice Of The Youth.mp3"
+        },
+        {
+            title:"sing final",
+            file:"Kreespii -sing final.mp3"
+        }
+    ]
+},
+
+{
+    name:"Chad Thompson",
+    genre:"Alternative",
+    image:"IMG-20260908-WA0003.jpg",
+
+    youtube:"https://m.youtube.com/watch?si=tinWwVAIEWuqwj7k&v=4tfcUQy4rtg&feature=youtu.be",
+
+    instagram:"https://www.instagram.com/wizardchad",
+
+    bio:`Chad Thompson creates dreamy alternative music where ocean tides meet cosmic skies. Blending hazy guitar, grunge textures, psychedelic sounds and whimsical storytelling, his music feels like drifting through an otherworldly dream at dusk— somewhere between the sea, the stars, and the unknown.`,
+
+    songs:[
+        {
+            title:"The Lantern Bearers",
+            file:"AUD-20260908-WA0004.mp3"
+        },
+        {
+            title:"The Sentinel Moon",
+            file:"AUD-20260908-WA0006.mp3"
+        }
+    ]
+},
+
+{
+    name:"KeloYouKnow",
+    genre:"HIP-HOP RAP",
+    image:"IMG-20260909-WA0003.jpg",
+
+    instagram:"https://www.instagram.com/1keloyouknow?stkn=MTFmc3d6bTV4cGRuaw%3D%3D&utm_source=qr",
+
+    youtube:"https://m.youtube.com/watch?si=8QLKsCDjmLIzZOMV&v=A4HudJ2wQlA&feature=youtu.be",
+
+    bio:`Rapper, singer, songwriter, and record producer Samkelo Simiso Hlophe, better known by his stage name KeloYouKnow, hails from Durban, South Africa. Growing up in the Southside of Durban, Kelo always had a deep love for music, especially hip-hop culture and rap music. The Slaughterhouse, Lil Wayne, Eminem, and Kanye West were a few of his early musical influences`,
+
+    songs:[
+        {
+            title:"Bonke",
+            file:"AUD-20260910-WA0000.mp3"
+        },
+        {
+            title:"uMina",
+            file:"AUD-20260910-WA0001.mp3"
+        }
+    ]
+},
+
+{
+    name:"K Kwizzy",
+    genre:"HIP-HOP TRAP",
+    image:"Screenshot_20260910_034240_Adobe Acrobat.jpg",
+
+    youtube:"https://m.youtube.com/watch?si=vwQ1GEZUtHtqSGjy&v=orVLUMFYLRI&feature=youtu.be",
+
+    instagram:"https://www.instagram.com/therealkkwizzy?igsi=c3RxZ3h4MTBnb2gz",
+
+    bio:`K Kwizzy is a South African Underground hiphop / trap Music blending the two with Ushuni (Umbhaqanga) flows which leads to Hood Trap With Rural Experience melodies , His Sounds influence a lot of Kasi Rappers and keeps on dominating around the  roots of KZN`,
+
+    songs:[
+        {
+            title:"Amanga",
+            file:"AUD-20260910-WA0003.opus"
+        },
+        {
+            title:"Imali ka Zuma",
+            file:"AUD-20260910-WA0002.mp3"
+        }
+    ]
+},
+
+{
+    name:"Siphogreatbeast",
+    genre:"Hip Hop",
+    image:"FB_IMG_1788062473118.jpg",
+
+    facebook:"https://www.facebook.com/share/18GKyEVRar/",
+
+    bio:`Siphogreatbeast, now known as Sipho Terrible Beast, was born and raised in Diepkloof and is currently based in Zola 3, Soweto, South Africa.
+
+His Rap Sage EP is a Hip-Hop project featuring diverse and raw rap lyrics across five songs, available on all major digital platforms. The EP was mixed and mastered by Silasbeats and features Seth Lewis, Rhyc, and Bafana.
+
+Bafana produced “Rap Sage Intro,” while Seth Lewis provides vocals on both “Rap Sage Intro” and “Divine Spark.” Rhyc, a talented singer, features on “Wonderland.” Rhyc also won a karaoke competition, earning a trip to Scotland.
+
+The Rap Sage EP represents Sipho Terrible Beast’s raw lyrical style, creativity, and collaborative spirit.`,
+
+    songs:[
+        {
+            title:"Rap Sage Intro",
+            file:"AUD-20260614-WA0006.mp3"
+        }
+    ]
+},
+
+{
+    name:"Dust Beatz",
+    genre:"Artist / Producer",
+    image:"IMG-20260904-WA0021.jpg",
+
+    youtube:"https://m.youtube.com/watch?si=a1iXdzY0J7SzeGmo&v=e_nsbHXAdvI&feature=youtu.be",
+
+    instagram:"https://www.instagram.com/dustbeatz__",
+
+    bio:`DustBeatz is a multi-platinum South African music producer, audio engineer, and beatmaker based in Durban, South Africa. He is known for his versatile production style, crafting instrumentals across a wide range of popular South African music genres. He frequently collaborates with local and mainstream South African artists.`,
+
+    songs:[
+        {
+            title:"Njengami",
+            file:"Dustbeatz ft Lacabra_Njengami.mp3"
+        }
+    ]
+},
+
+{
+    name:"Shirley Callaghan",
+    genre:"DARK-FOLK ALT-INDIE",
+    image:"Screenshot_20260910_043646_Adobe Acrobat.jpg",
+
+    instagram:"https://www.instagram.com/shirleycallaghanmusic/",
+
+    youtube:"https://youtu.be/QPUtOA8VagY?is=wG8cn9aNkcpf05Rq",
+
+    bio:`An independent singer-songwriter from County Clare, Ireland, writing dark folk and alternative indie music with acoustic roots. Her songs explore themes of grief, power, injustice, resilience and survival. Shirley writes and records in her home studio in Ireland. She releases her own music and recently performed at the Cavern Club, Liverpool`,
+
+    songs:[
+        {
+            title:"Flower in the Winter",
+            file:"flower_in_the_winter_mp3_74493.mp3"
+        }
+    ]
+},
+
+{
+    name:"DBZ Intelezi",
+    genre:"HIP-HOP",
+    image:"IMG-20251220-WA0008.jpg",
+
+    youtube:"https://m.youtube.com/watch?si=ulfYnH--DCjB_MuA&v=ZMncABoBoEw&feature=youtu.be",
+
+    instagram:"https://www.instagram.com/dbzintelezitour?igsi=MXI5cjZ6d3l0cXBxNA==",
+
+    bio:`16 artists, 2 studios, 3 days. A collaboration of sound forged in the pressure cooker of a 3-night studio retreat camp. Led by Pdogg Amazing, recorded by DustBeatz and pop-up guest Slim Ego.
+
+This led to a range of collaborations between PDoggAmazing, 04our, Tommy Nebula, Hoodbvby, Og Purp, GraeJxy, iSkhuluamantungwa, Tiipy, Sammie, LnxqdaArtist, the Trap Twins and Slim Ego.`,
+
+    songs:[
+        {
+            title:"Ishuu",
+            file:"Ishuu.mp3"
+        },
+        {
+            title:"goku",
+            file:"goku.mp3"
+        }
+    ]
+},
+
+{
+    name:"Many Moore",
+    genre:"Pop & Afro Soul",
+    image:"IMG-20260805-WA0019(2).jpg",
+
+    instagram:"https://www.instagram.com/manymooreinc?igsh=c2U5NXJnNm9reTRy",
+
+    youtube:"https://music.youtube.com/watch?v=Q_JzxWKS3F4&si=DVO0bYvBVdNUlzMI",
+
+    bio:`Many Moore is the manifestation of a will to listen and a heart to share. Always existing in the form of three, the group looks forward to making art, whatever the season they find themselves in.
+
+Thulani “Headship” Ngcobo, Lindani “Li” Dlalisa, and Alex Jaggers come together to create music that reflects their shared vision, creativity, and passion for expression.`,
+
+    songs:[
+        {
+            title:"Sinegugu",
+            file:"Sinegugu [Q_JzxWKS3F4].mp3"
+        }
+    ]
+}
+
+];
+
+const artistGrid = document.getElementById("artistGrid");
+const audioPlayer = document.getElementById("audioPlayer");
+
+let currentButton = null;
+let currentFile = "";
+
+function renderArtists(){
+
+    artistGrid.innerHTML = artists.map((artist,index)=>{
+
+        const socialLinks = [];
+
+        if(artist.instagram){
+            socialLinks.push(`
+                <a
+                    class="social-btn"
+                    href="${artist.instagram}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                >
+                    ${instagramIcon}
+                </a>
+            `);
+        }
+
+        if(artist.youtube){
+            socialLinks.push(`
+                <a
+                    class="social-btn"
+                    href="${artist.youtube}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                >
+                    ${youtubeIcon}
+                </a>
+            `);
+        }
+
+        /*
+         * Facebook is intentionally NOT placed in the normal
+         * social row. It is rendered at the bottom of the
+         * Siphogreatbeast bio below.
+         */
+
+        const facebookAtBioBottom = artist.facebook ? `
+            <div class="bio-facebook">
+                <a
+                    class="social-btn"
+                    href="${artist.facebook}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    onclick="openFacebookExternally(event, '${artist.facebook}')"
+                >
+                    ${facebookIcon}
+                </a>
+            </div>
+        ` : "";
+
+        const songs = artist.songs.map((song,songIndex)=>{
+
+            return `
+                <div class="song">
+
+                    <button
+                        class="play-btn"
+                        type="button"
+                        data-artist="${index}"
+                        data-song="${songIndex}"
+                        onclick="playSong(${index},${songIndex},this)"
+                        aria-label="Play ${song.title}"
+                    >
+                        ▶
+                    </button>
+
+                    <div class="song-info">
+                        <div class="song-title">
+                            ${song.title}
+                        </div>
+
+                        <div class="song-artist">
+                            ${artist.name}
+                        </div>
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+        return `
+            <article class="artist-card">
+
+                <div class="artist-header">
+
+                    <img
+                        class="artist-image"
+                        src="${artist.image}"
+                        alt="${artist.name}"
+                        loading="lazy"
+                        draggable="false"
+                    >
+
+                    <div>
+                        <div class="artist-name">
+                            ${artist.name}
+                        </div>
+
+                        <div class="artist-genre">
+                            ${artist.genre}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bio">
+                    ${artist.bio.replace(/\n/g,"<br><br>")}
+
+                    ${facebookAtBioBottom}
+                </div>
+
+                <div class="socials">
+                    ${socialLinks.join("")}
+                </div>
+
+                <div class="songs-title">
+                    Music
+                </div>
+
+                <div class="song-list">
+                    ${songs}
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
+
+async function playSong(artistIndex,songIndex,button){
+
+    const artist = artists[artistIndex];
+    const song = artist.songs[songIndex];
+
+    const source = audioFolder + song.file;
+
+    /*
+     * Clicking the currently playing song toggles pause/resume.
+     */
+    if(currentFile === source){
+
+        if(audioPlayer.paused){
+
+            try{
+                await audioPlayer.play();
+                button.textContent = "Ⅱ";
+            }catch(error){
+                console.error(error);
+            }
+
+        }else{
+
+            audioPlayer.pause();
+            button.textContent = "▶";
+
+        }
+
+        return;
+    }
+
+    /*
+     * Reset the previous button.
+     */
+    if(currentButton){
+        currentButton.textContent = "▶";
+    }
+
+    currentButton = button;
+    currentFile = source;
+
+    audioPlayer.src = source;
+
+    try{
+
+        await audioPlayer.play();
+
+        button.textContent = "Ⅱ";
+
+    }catch(error){
+
+        console.error("Audio playback error:",error);
+
+        button.textContent = "▶";
+        currentFile = "";
+
+        alert(
+            "This song could not be played. Please check that the exact audio filename is in the same folder as this HTML file."
+        );
+
+    }
+}
+
+audioPlayer.addEventListener("ended",()=>{
+
+    if(currentButton){
+        currentButton.textContent = "▶";
+    }
+
+    currentButton = null;
+    currentFile = "";
+
+});
+
+audioPlayer.addEventListener("pause",()=>{
+
+    if(
+        currentButton &&
+        !audioPlayer.ended
+    ){
+        currentButton.textContent = "▶";
+    }
+
+});
+
+audioPlayer.addEventListener("play",()=>{
+
+    if(currentButton){
+        currentButton.textContent = "Ⅱ";
+    }
+
+});
+
+/*
+ * Facebook external-link handling.
+ *
+ * The HTTPS Facebook URL is preserved.
+ * AppCreator24 / Android WebView must allow external
+ * links to be handed off to the device browser.
+ */
+function openFacebookExternally(event,url){
+
+    event.preventDefault();
+
+    /*
+     * First try to open the HTTPS address as an external
+     * browser destination.
+     */
+    const newWindow = window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+    /*
+     * Some WebViews block window.open. In that case,
+     * navigate to the HTTPS URL normally.
+     */
+    if(!newWindow){
+        window.location.href = url;
+    }
+}
+
+/*
+ * Disable casual saving / dragging.
+ */
+document.addEventListener("contextmenu",function(event){
+    event.preventDefault();
+});
+
+document.addEventListener("dragstart",function(event){
+    event.preventDefault();
+});
+
+document.addEventListener("keydown",function(event){
+
+    if(
+        (event.ctrlKey || event.metaKey) &&
+        (
+            event.key.toLowerCase() === "s" ||
+            event.key.toLowerCase() === "u"
+        )
+    ){
+        event.preventDefault();
+    }
+
+});
+
+renderArtists();
+
+</script>
+
+</body>
+</html>
