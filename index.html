@@ -908,6 +908,56 @@ Thulani “Headship” Ngcobo, Lindani “Li” Dlalisa, and Alex Jaggers come t
             file:"Sinegugu [Q_JzxWKS3F4].mp3"
         }
     ]
+},
+
+{
+    name:"Tommy Nebula",
+    genre:"Hip-Hop / Rap",
+    image:"IMG-20260722-WA0007(1).jpg",
+
+    instagram:"https://www.instagram.com/tommynebula?igsh=M3BieHlhNXg4cWd3&utm_source=qr",
+
+    bio:`Tommy Nebula (a.k.a. Graphiic) is a Durban rapper, singer, songwriter, and producer making waves in the local hip-hop scene. Awarded Rockstar of the Year in 2019, he is known for global features, hit local collaborations, and delivering explosive energy with sharp lyricism on every track.`,
+
+    songs:[
+        {
+            title:"415",
+            file:"415 tag added.mp3"
+        },
+        {
+            title:"Dont like me",
+            file:"Dont like me tag added.mp3"
+        }
+    ]
+},
+
+{
+    name:"Dawn Melanie",
+    genre:"Avant-Garde • Progressive Folk • Art Rock • Celtic Folk • Maskandi",
+    image:"IMG-20260110-WA0004(3).jpg",
+
+    youtube:"https://youtu.be/Q_PS1SuxADk?si=CHpryw_cgfg4cit-",
+
+    instagram:"https://www.instagram.com/dawn_melanie_?stkn=Zm80NjFhdGk3bTZs",
+
+    bio:`Dawn Melanie is a South African singer/songwriter and multi instrumentalist. Her music is an eclectic range of Avant-garde, Progressive Folk, Art Rock originals, with strong Celtic folk and African maskandi influences and wonderful story telling lyrics, which hold deep meaning and take you on a journey to some where mystical. Her lyrics often hold connections to folk lore and mythology from around the world, whilst also telling the stories of the human experience as it is today, connecting the past and the present.
+
+She has released a full album, Titled Here and Now, an EP, titled Be The Light, which achieved international acclaim, a single recently released, Late Nights, a series of radio edit singles (Old Oak, Childhood Games, The Maiden And The Stones) off her upcoming album There and Then, all of which have achieved global radio plays.
+
+There and Then is a full 10 track album, released on 25 January 2025, achieving international radio success.
+
+For Africa is a 4 track Ep of radio edits featuring tracks with a maskandi or afropop flav`,
+
+    songs:[
+        {
+            title:"Promised Land (Radio Edit)",
+            file:"3) Promised Land(Radio Edit).mp3"
+        },
+        {
+            title:"Africa Rising (Radio Edit)",
+            file:"1. Africa Rising (Radio Edit).mp3"
+        }
+    ]
 }
 
 ];
@@ -966,7 +1016,6 @@ function renderArtists(){
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
-                    onclick="openFacebookExternally(event, '${artist.facebook}')"
                 >
                     ${facebookIcon}
                 </a>
@@ -1145,36 +1194,6 @@ audioPlayer.addEventListener("play",()=>{
     }
 
 });
-
-/*
- * Facebook external-link handling.
- *
- * The HTTPS Facebook URL is preserved.
- * AppCreator24 / Android WebView must allow external
- * links to be handed off to the device browser.
- */
-function openFacebookExternally(event,url){
-
-    event.preventDefault();
-
-    /*
-     * First try to open the HTTPS address as an external
-     * browser destination.
-     */
-    const newWindow = window.open(
-        url,
-        "_blank",
-        "noopener,noreferrer"
-    );
-
-    /*
-     * Some WebViews block window.open. In that case,
-     * navigate to the HTTPS URL normally.
-     */
-    if(!newWindow){
-        window.location.href = url;
-    }
-}
 
 /*
  * Disable casual saving / dragging.
